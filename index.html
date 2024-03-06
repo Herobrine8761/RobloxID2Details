@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roblox ID 2 Details</title>
+<style>
+  body{
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #FFF;
+    background-color: #333333;
+  }
+  div{
+    text-align: center;
+  }
+  #rob_id_textbox{
+    background-color: azure;
+  }
+</style>
+</head>
+<body>
+<div>
+    <input type="number" name="Roblox ID" id="rob_id_textbox">
+    <button onclick="get_info()">Submit</button>
+    <br>
+    <p id="details">Name: NOT PROVIDED <br>Display Name: NOT PROVIDED <br>ID: NOT PROVIDED</p>
+</div>
+
+<script>
+async function get_info() {
+    // Get the Roblox ID from the HTML element
+    const robloxId = document.getElementById("rob_id_textbox").value;
+
+    // Construct the URL
+    const url = `https://users.roblox.com/v1/users/${robloxId}`;
+
+    try {
+        // Fetch data from the URL
+        const response = await fetch(url);
+        const data = await response.json();
+
+        // Extract the required keys
+        const { display_name, name, id } = data;
+
+        // Log the retrieved information
+        console.log("Display Name:", display_name);
+        console.log("Name:", name);
+        console.log("ID:", id);
+
+        document.getElementById("details").innerHTML = "Name: " + name + "<br>Display Name: " + display_name + "<br>ID: " + id;
+
+        // Return the extracted information
+        return { display_name, name, id };
+    } catch (error) {
+        console.error("Error fetching user information:", error);
+        return null;
+    }
+}
+</script>
+
+</body>
+</html>
